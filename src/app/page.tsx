@@ -1,8 +1,11 @@
 import React from "react";
+import Dashboard from "./dashboard/page";
 
 const page = () => {
   return (
-    <div className="h-full w-full flex items-center justify-center "></div>
+    <div>
+      <Dashboard />
+    </div>
   );
 };
 
