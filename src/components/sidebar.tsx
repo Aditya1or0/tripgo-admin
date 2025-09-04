@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  BadgePlus,
-  History,
-  Home,
-  Plane,
-  Settings,
-  User,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { User, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggleButton from "@/components/ui/theme-toggle-button";
