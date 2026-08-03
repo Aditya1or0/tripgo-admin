@@ -44,7 +44,7 @@ export const dummyTravelData: Trip[] = [
     specialRequests: "Guide with Hindi proficiency",
   },
 ];
-console.log(dummyTravelData, "hello" < "hel", "l", "k");
+console.log(dummyTravelData, "hello" < "hel", "l");
 const TripHistory = () => {
   return (
     <div className="px-2 py-6">
