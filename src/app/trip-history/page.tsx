@@ -45,6 +45,8 @@ export const dummyTravelData: Trip[] = [
   },
 ];
 console.log(dummyTravelData, "hello" < "hel");
+console.log(dummyTravelData, "hello" < "hel");
+
 const TripHistory = () => {
   return (
     <div className="px-2 py-6">
