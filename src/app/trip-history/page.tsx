@@ -31,7 +31,6 @@ export const dummyTravelData: Trip[] = [
     specialRequest: "Vegetarian meals only",
   },
 ];
-console.log("helo");
 
 const TripHistory = () => {
   return (
