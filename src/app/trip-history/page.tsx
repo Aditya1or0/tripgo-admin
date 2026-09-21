@@ -9,37 +9,25 @@ export const dummyTravelData: Trip[] = [
 
     location: "Manali",
 
-    // ❌ Interface expects `customer`
-    customerName: "Rahul Sharma",
+    customer: "Rahul Sharma",
 
     travelers: "4",
     totalPrice: "₹20,000",
 
     bookedOn: "2025-08-10",
-
-    // ❌ Invalid union type
-    status: "completed",
-
+    status: "confirmed",
     duration: "3 Days / 2 Nights",
-
     type: "Adventure",
-
-    // ❌ Interface expects number
-    rating: "4.5",
-
-    // ❌ Wrong property
-    specialRequest: "Vegetarian meals only",
+    rating: 4.5,
   },
 ];
-console.log("hel");
 
 const TripHistory = () => {
   return (
     <div className="px-2 py-6">
       <Heading title="Trip History" />
 
-      {/* ❌ Component only accepts travelData */}
-      <BookTripTable travelData={dummyTravelData} loading={true} />
+      <BookTripTable travelData={dummyTravelData} />
     </div>
   );
 };

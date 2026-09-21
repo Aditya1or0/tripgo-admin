@@ -1,113 +1,132 @@
 "use client";
 
-import { User, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import ThemeToggleButton from "@/components/ui/theme-toggle-button";
 import Image from "next/image";
-import Logo from "../assets/logo.png";
-import { SidebarProps } from "@/constants/sidebar-type";
-import { navItems } from "@/constants/nav-item";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
+  Moon,
+  Sparkles,
+  ChevronsUpDown,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react";
+import Logo from "@/assets/logo.png";
+import { mainNavItems, settingsNavItems } from "@/constants/nav-item";
+import { SidebarProps } from "@/constants/sidebar-type";
+import SidebarSection from "@/components/sidebar/sidebar-section";
+import SidebarItem from "@/components/sidebar/sidebar-item";
+import { Switch } from "@/components/ui/switch";
 
 export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && theme === "dark";
 
   return (
-    <div
-      className={`${
-        isCollapsed ? "w-16 px-2" : "w-64 px-6"
-      } h-[calc(100vh-80px)] py-8 bg-white/60 dark:bg-[#555] text-gray-800 dark:text-gray-100 mx-6 my-10 rounded-lg flex flex-col justify-between transition-all duration-300 ease-in-out relative`}
+    <aside
+      className={`h-screen border border-r border-gray-300/30 dark:border-gray-500/30 flex flex-col justify-between bg-zinc-200 dark:bg-[#15171B] transition-all duration-300 ease-in-out select-none ${isCollapsed ? "w-[76px] px-3 py-5" : "w-[260px] px-4 py-5"
+        }`}
     >
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-8 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full p-1.5 shadow-md hover:shadow-lg transition-all duration-200 z-10"
-      >
-        {isCollapsed ? (
-          <ChevronRight className="w-4 h-4" />
-        ) : (
-          <ChevronLeft className="w-4 h-4" />
-        )}
-      </button>
-
-      <div>
-        {!isCollapsed && (
-          <div className="mt-[-50px] mb-8">
-            <Link href="/">
-              <Image
-                src={Logo}
-                alt="logo"
-                className="w-36 h-auto object-contain dark:invert"
-                priority
-              />
-            </Link>
-          </div>
+      {/* Top Part */}
+      <div className="flex flex-col flex-1 overflow-y-auto no-scrollbar space-y-5">
+        {/* Brand Logo & Collapse Toggle */}
+        <div className="flex items-center justify-between min-h-[48px] px-1">          {!isCollapsed && (
+          <Link href="/dashboard" className="flex items-center gap-2.5">
+            <Image
+              src={Logo}
+              alt="TripGo"
+              width={180}
+              height={60}
+              className="h-10 w-auto object-contain dark:invert"
+              priority
+            />
+          </Link>
         )}
 
-        <ul className="space-y-3">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <Tooltip delayDuration={200}>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={item.href}
-                    className={`group relative flex items-center ${
-                      isCollapsed ? "justify-center" : "gap-3"
-                    } px-3 py-2 rounded transition overflow-hidden ${
-                      pathname === item.href
-                        ? "bg-gradient-to-r from-sky-100 to-emerald-200/50 text-sky-600 dark:text-orange-800 dark:bg-gradient-to-r dark:from-orange-100 dark:to-rose-200/50 font-medium"
-                        : "hover:bg-green-100/60 dark:hover:bg-orange-100 dark:hover:text-orange-800"
-                    }`}
-                  >
-                    {pathname === item.href && !isCollapsed && (
-                      <span className="absolute left-0 top-0 h-full w-1 bg-sky-600 dark:bg-orange-500 rounded-r-lg" />
-                    )}
-                    <div className="flex-shrink-0">
-                      <item.icon className="w-5 h-5" />
-                    </div>
-
-                    {!isCollapsed && (
-                      <span className="transition-opacity duration-300">
-                        {item.label}
-                      </span>
-                    )}
-                  </Link>
-                </TooltipTrigger>
-                {isCollapsed && (
-                  <TooltipContent side="right">{item.label}</TooltipContent>
-                )}
-              </Tooltip>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div
-        className={`flex items-center ${
-          isCollapsed ? "flex-col space-y-4" : "justify-between"
-        } mt-8`}
-      >
-        <div className="relative group">
-          <div
-            className={`flex items-center ${
-              isCollapsed ? "justify-center" : "gap-3"
-            }`}
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+            title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <User />
-            {!isCollapsed && (
-              <span className="hidden md:inline text-gray-700 dark:text-gray-200 font-medium">
-                Username
-              </span>
+            {isCollapsed ? (
+              <PanelLeftOpen className="size-4.5" />
+            ) : (
+              <PanelLeftClose className="size-4.5" />
             )}
-          </div>
+          </button>
         </div>
 
-        <ThemeToggleButton showLabel={false} variant="circle" />
+
+        {/* Navigation Sections */}
+        <div className="space-y-4 pt-1">
+          <SidebarSection title="MAIN" isCollapsed={isCollapsed}>
+            {mainNavItems.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href === "/dashboard" && pathname === "/");
+              return (
+                <SidebarItem
+                  key={item.href}
+                  label={item.label}
+                  href={item.href}
+                  icon={item.icon}
+                  isActive={isActive}
+                  isCollapsed={isCollapsed}
+                  badge={item.badge}
+                />
+              );
+            })}
+          </SidebarSection>
+
+          <SidebarSection title="SETTINGS" isCollapsed={isCollapsed}>
+            {settingsNavItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <SidebarItem
+                  key={item.href}
+                  label={item.label}
+                  href={item.href}
+                  icon={item.icon}
+                  isActive={isActive}
+                  isCollapsed={isCollapsed}
+                />
+              );
+            })}
+          </SidebarSection>
+        </div>
       </div>
-    </div>
+
+      {/* Bottom Area */}
+      <div className="pt-4 mt-auto space-y-4 border-t border-gray-100 dark:border-neutral-800/80">
+        {/* Dark Mode Row */}
+        <div
+          className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between px-2"
+            }`}
+        >
+          <div className="flex items-center gap-2.5 text-gray-600 dark:text-gray-300">
+            <Moon className="size-4 text-gray-500 dark:text-gray-400" />
+            {!isCollapsed && (
+              <span className="text-xs font-medium">Dark Mode</span>
+            )}
+          </div>
+          {!isCollapsed && (
+            <Switch
+              checked={isDark}
+              onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+              aria-label="Toggle dark mode"
+            />
+          )}
+        </div>
+
+      </div>
+    </aside>
   );
 }

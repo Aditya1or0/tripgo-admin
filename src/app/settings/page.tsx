@@ -39,7 +39,13 @@ const Settings = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
-  const TabIcon = ({ icon: Icon, children }) => (
+  const TabIcon = ({
+    icon: Icon,
+    children,
+  }: {
+    icon: React.ComponentType<{ size?: number }>;
+    children: React.ReactNode;
+  }) => (
     <div className="flex items-center gap-2">
       <Icon size={16} />
       {children}
@@ -680,7 +686,7 @@ const Settings = () => {
                     </div>
 
                     <div className="bg-green-50 p-6 rounded-lg border border-green-200 text-center">
-                      <Settings
+                      <SettingsIcon
                         size={32}
                         className="mx-auto text-green-600 mb-3"
                       />
