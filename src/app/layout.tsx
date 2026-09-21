@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`min-h-screen bg-[linear-gradient(180deg,_#f5f5f5,_#e5e5e5)] dark:bg-[linear-gradient(180deg,_#1a1a1a,_#111111)] text-gray-900 dark:text-white ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`min-h-screen bg-[linear-gradient(180deg,_#f5f5f5,_#e5e5e5)] dark:bg-[#0E0F12] text-gray-900 dark:text-gray-100 ${geistSans.variable} ${geistMono.variable} antialiased selection:bg-blue-100 selection:text-blue-900`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <DashboardLayout>{children}</DashboardLayout>
